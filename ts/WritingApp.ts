@@ -1,25 +1,18 @@
 'use strict';
 
-import { WritingAnalysisService } from "./analysis/WritingAnalysis";
+import { TextAnalysis } from "./analysis/TextAnalysis";
 
 export class WritingApp {
-    private writingAnalysis:WritingAnalysisService = new WritingAnalysisService();
+    private text:TextAnalysis = new TextAnalysis();
 
-
-    constructor() {
-
-        console.log("construct Writing page")
-
-    }
-
-    init() {
+    init(): void {
         // We get the textarea where the message is written
         const textToAnalyze = <HTMLTextAreaElement>document.querySelector('#text-to-analyze textarea');
 
         // As keypress doesn't work with a android keyboard, we use keyup
         textToAnalyze.addEventListener("keyup", () => {
             console.log(`textToAnalyze.textContent`, textToAnalyze.textContent);
-            this.writingAnalysis.analyzeText(textToAnalyze.value);
+            this.text.analyze(textToAnalyze.value);
         })
     }
 
