@@ -1,0 +1,32 @@
+{
+  "name": "real-time-text-analysis",
+  "version": "1.0.0",
+  "description": "Tool for doing an AFINN sentiment analysis on user input in real time.",
+  "scripts": {
+    "start": "parcel --no-cache index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "keywords": [
+    "emotion",
+    "music",
+    "classifier"
+  ],
+  "author": "mathilde buenerd",
+  "license": "ISC",
+  "bugs": {
+    "url": ""
+  },
+  "devDependencies": {
+    "parcel-plugin-json-url-loader": "^0.1.1",
+    "typescript": "^3.0.1"
+  },
+  "homepage": "",
+  "dependencies": {
+    "data": "^0.6.1",
+    "parcel-bundler": "^1.9.7"
+  }
+}
