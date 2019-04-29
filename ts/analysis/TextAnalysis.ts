@@ -1,5 +1,17 @@
 import * as sentiment from "node-sentiment-jouska";
 
+interface Results {
+    comparative: number;
+    language: string;
+    negation: boolean;
+    negative: Array<string>;
+    positive: Array<string>;
+    score: number;
+    tokens: Array<string>;
+    vote: string;
+    words: Array<string>;
+}
+
 export class TextAnalysis {
 
     public analyze(sentence: string, language: string = "en"): void {
@@ -7,13 +19,14 @@ export class TextAnalysis {
         if (sentence !== undefined) {
 
             // Ignore the last word because it's not a full word
-            const ignoreLastWord = new RegExp(/.+[ !?,.:"]/, 'gim');
+            const ignoreLastWord = new RegExp(/.+[ !?,."]/, 'gim');
             const allWordsExceptLast = sentence.match(ignoreLastWord); // with that regex, match is supposed to return a single sentence in an array
             const wordsToAnalyze = String(allWordsExceptLast);
 
             if (wordsToAnalyze !== 'null') {
                 const polarity = this.getSentiment(wordsToAnalyze, language);
                 console.log(`polarity`, polarity);
+                this.showScore(polarity);
             }
 
         }
@@ -50,7 +63,7 @@ export class TextAnalysis {
 
     public getSentiment(
         text: string,
-        language: string = 'en'): object {
+        language: string = 'en'): Array<Results> {
 
         const isSentenceLong = this.checkSentenceLength(text);
 
@@ -62,12 +75,30 @@ export class TextAnalysis {
             }
             return analysis;
         } else {
-            return sentiment.default(text, language, text);
+            return [sentiment.default(text, language, text)];
         }
 
     }
 
-    public showScore(results) {
+    public showScore(results: Array<Results>): void {
+        let score = 0;
+        let comparativeScore = 0;
+        let positiveWords = "";
+        let negativeWords = "";
+
+        for (const sentence of results) {
+            score += sentence.score;
+            comparativeScore += sentence.comparative;
+            positiveWords += `${sentence.positive} `;
+            negativeWords += `${sentence.negative} `;
+        }
+        console.log(`Score total`, score);
+
+        // Show results in the DOM
+        document.querySelector(`#score`).textContent = String(score);
+        document.querySelector(`#comparative-score`).textContent = String(comparativeScore);
+        document.querySelector(`#positive-words`).textContent = positiveWords;
+        document.querySelector(`#negative-words`).textContent = negativeWords;
 
     }
 
