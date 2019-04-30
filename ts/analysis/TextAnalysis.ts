@@ -1,6 +1,19 @@
 import * as sentiment from "node-sentiment-jouska";
 
 interface Results {
+    summary: Summary
+    details: Array<PolarityAnalysis>
+}
+
+interface Summary {
+    text: string,
+    score: number
+    comparative: number,
+    negative: Array<string>,
+    positive: Array<string>,
+}
+
+interface PolarityAnalysis {
     comparative: number;
     language: string;
     negation: boolean;
@@ -14,7 +27,7 @@ interface Results {
 
 export class TextAnalysis {
 
-    public analyze(sentence: string, language: string = "en"): void {
+    public analyze(sentence: string, language: string = "en"): Results {
 
         if (sentence !== undefined) {
 
@@ -25,8 +38,12 @@ export class TextAnalysis {
 
             if (wordsToAnalyze !== 'null') {
                 const polarity = this.getSentiment(wordsToAnalyze, language);
-                console.log(`polarity`, polarity);
+                const summary = this.summarizeResults(sentence, polarity);
                 this.showScore(polarity);
+                return {
+                    summary: summary,
+                    details: polarity
+                };
             }
 
         }
@@ -49,6 +66,8 @@ export class TextAnalysis {
         const unfinishedSentence = sentence.slice(searchFrom);
         subSentences.push(unfinishedSentence);
 
+        console.log(`subSentences`, subSentences);
+
         return subSentences;
     }
 
@@ -63,7 +82,7 @@ export class TextAnalysis {
 
     public getSentiment(
         text: string,
-        language: string = 'en'): Array<Results> {
+        language: string = 'en'): Array<PolarityAnalysis> {
 
         const isSentenceLong = this.checkSentenceLength(text);
 
@@ -80,7 +99,7 @@ export class TextAnalysis {
 
     }
 
-    public showScore(results: Array<Results>): void {
+    public showScore(results: Array<PolarityAnalysis>): void {
         let score = 0;
         let comparativeScore = 0;
         let positiveWords = "";
@@ -100,6 +119,34 @@ export class TextAnalysis {
         document.querySelector(`#positive-words`).textContent = positiveWords;
         document.querySelector(`#negative-words`).textContent = negativeWords;
 
+
+
+    }
+
+    summarizeResults(text: string, results: Array<PolarityAnalysis>): Summary {
+        let score = 0;
+        let comparativeScore = 0;
+        let positiveWords = [];
+        let negativeWords = [];
+
+        for (const sentence of results) {
+            score += sentence.score;
+            comparativeScore += sentence.comparative;
+            for (const word in sentence.positive) {
+                positiveWords.push(word);
+            }
+            for (const word in sentence.negative) {
+                negativeWords.push(word);
+            }
+        }
+
+        return {
+            text: text,
+            score: score,
+            comparative: comparativeScore,
+            negative: negativeWords,
+            positive: positiveWords,
+        }
     }
 
 }

@@ -11,8 +11,8 @@ export class WritingApp {
 
         // As keypress doesn't work with a android keyboard, we use keyup
         textToAnalyze.addEventListener("keyup", () => {
-            console.log(`textToAnalyze.textContent`, textToAnalyze.textContent);
-            this.text.analyze(textToAnalyze.value);
+            const analysisResults = this.text.analyze(textToAnalyze.value);
+            console.log(`Analysis results`, analysisResults);
         })
     }
 
