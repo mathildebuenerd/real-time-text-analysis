@@ -67,8 +67,6 @@ export class TextAnalysis {
         const unfinishedSentence = sentence.slice(searchFrom);
         subSentences.push(unfinishedSentence);
 
-        console.log(`subSentences`, subSentences);
-
         return subSentences;
     }
 
@@ -91,7 +89,6 @@ export class TextAnalysis {
             const allSentences: Array<string> = this.sliceSentence(text);
             let analysis = []; // on crée un tableau pour stocker les analyses
             for (const sentence of allSentences) {
-                console.log(`ressss`, sentiment.default(sentence, language))
                 analysis.push(sentiment.default(sentence, language));
             }
             return analysis;
@@ -117,7 +114,6 @@ export class TextAnalysis {
                 negation++;
             }
         }
-        console.log(`Score total`, score);
 
         // Show results in the DOM
         document.querySelector(`#score`).textContent = String(score);
@@ -136,8 +132,6 @@ export class TextAnalysis {
         let negation = 0;
         let positiveWords = [];
         let negativeWords = [];
-
-        console.log(`les résultat`, results);
 
         for (const sentence of results) {
             score += sentence.score;
