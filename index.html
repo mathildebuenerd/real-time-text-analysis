@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Real time sentiment analysis</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -11,22 +12,24 @@
     <h1>Real-time sentiment analysis</h1>
 </header>
 
-<section id="controls">
-    <h2>Controls</h2>
-</section>
+<main>
+    <section id="text-to-analyze">
+        <h2>Text to analyze</h2>
+        <label for="to-analyze">Write your text...</label>
+        <textarea name="toAnalyze" id="to-analyze" cols="30" rows="5"></textarea>
+    </section>
 
-<section id="text-to-analyze">
-    <label for="to-analyze">Write the text you want to analyze</label>
-    <textarea name="toAnalyze" id="to-analyze" cols="30" rows="10"></textarea>
-</section>
+    <section id="results">
+        <h2>Results</h2>
 
-<section id="results">
-    <h2>Results</h2>
-    <p>Score: <span id="score"></span></p>
-    <p>Comparative score: <span id="comparative-score"></span></p>
-    <p>Positive words: <span id="positive-words"></span></p>
-    <p>Negative words: <span id="negative-words"></span></p>
-</section>
+        <p>Score: <span id="score"></span></p>
+        <p>Comparative score: <span id="comparative-score"></span></p>
+        <p>Number of negation (not...) <span id="negation"></span></p>
+        <p>Positive words: <span id="positive-words"></span></p>
+        <p>Negative words: <span id="negative-words"></span></p>
+    </section>
+</main>
+
 
 
 

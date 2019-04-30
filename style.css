@@ -1,0 +1,65 @@
+body {
+    margin: 0;
+    padding: 30px 50px;
+    font-family: Roboto, arial, sans-serif;
+    background-color: #efefef;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+input {
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid lightgrey;
+    width: 80%;
+}
+
+button {
+    padding: 15px;
+    margin-top: 25px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background-color: #0085ff;
+    color: white;
+    border: 0;
+    box-shadow: 0 3px 5px #c4c4c4;
+}
+
+label {
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+#text-to-analyze {
+    display: flex;
+    flex-direction: column;
+}
+
+section#results {
+    padding: 10px 25px;
+    margin-top: 30px;
+    box-sizing: border-box;
+    background-color: white;
+    box-shadow: 0 3px 5px #0000002b;
+    font-size: 1.3em;
+}
+
+section#results span {
+    font-weight: bold;
+    background-color: #8080801c;
+    padding: 10px;
+}
+
+
+textarea#to-analyze {
+    padding: 20px;
+    box-sizing: border-box;
+    border: 0;
+    font-family: Roboto, arial, sans-serif;
+    font-size: 1.5em;
+    line-height: 180%;
+}

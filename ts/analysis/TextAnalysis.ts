@@ -1,4 +1,4 @@
-import * as sentiment from "node-sentiment-jouska";
+import * as sentiment from "node-sentiment";
 
 interface Results {
     summary: Summary
@@ -9,8 +9,9 @@ interface Summary {
     text: string,
     score: number
     comparative: number,
+    negation: number,
     negative: Array<string>,
-    positive: Array<string>,
+    positive: Array<string>
 }
 
 interface PolarityAnalysis {
@@ -90,7 +91,8 @@ export class TextAnalysis {
             const allSentences: Array<string> = this.sliceSentence(text);
             let analysis = []; // on crée un tableau pour stocker les analyses
             for (const sentence of allSentences) {
-                analysis.push(sentiment.default(sentence, language, text));
+                console.log(`ressss`, sentiment.default(sentence, language))
+                analysis.push(sentiment.default(sentence, language));
             }
             return analysis;
         } else {
@@ -102,6 +104,7 @@ export class TextAnalysis {
     public showScore(results: Array<PolarityAnalysis>): void {
         let score = 0;
         let comparativeScore = 0;
+        let negation = 0;
         let positiveWords = "";
         let negativeWords = "";
 
@@ -110,12 +113,16 @@ export class TextAnalysis {
             comparativeScore += sentence.comparative;
             positiveWords += `${sentence.positive} `;
             negativeWords += `${sentence.negative} `;
+            if (sentence.negation === true) {
+                negation++;
+            }
         }
         console.log(`Score total`, score);
 
         // Show results in the DOM
         document.querySelector(`#score`).textContent = String(score);
         document.querySelector(`#comparative-score`).textContent = String(comparativeScore);
+        document.querySelector(`#negation`).textContent = String(negation);
         document.querySelector(`#positive-words`).textContent = positiveWords;
         document.querySelector(`#negative-words`).textContent = negativeWords;
 
@@ -126,16 +133,22 @@ export class TextAnalysis {
     summarizeResults(text: string, results: Array<PolarityAnalysis>): Summary {
         let score = 0;
         let comparativeScore = 0;
+        let negation = 0;
         let positiveWords = [];
         let negativeWords = [];
+
+        console.log(`les résultat`, results);
 
         for (const sentence of results) {
             score += sentence.score;
             comparativeScore += sentence.comparative;
-            for (const word in sentence.positive) {
+
+            if (sentence.negation === true) negation++;
+
+            for (const word of sentence.positive) {
                 positiveWords.push(word);
             }
-            for (const word in sentence.negative) {
+            for (const word of sentence.negative) {
                 negativeWords.push(word);
             }
         }
@@ -143,6 +156,7 @@ export class TextAnalysis {
         return {
             text: text,
             score: score,
+            negation: negation,
             comparative: comparativeScore,
             negative: negativeWords,
             positive: positiveWords,
